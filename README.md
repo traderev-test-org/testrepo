@@ -1,4 +1,4 @@
 # Title
 
-'/_snapshot/<<name>>' <<name>>
+'/_snapshot/&lt;name&gt;' &lt;name&gt;
 
