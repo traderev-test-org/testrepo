@@ -18,3 +18,12 @@ Infrastructure and deployment Details
 Deployment of a selected WAR file consists of copying the WAR file into an S3 bucket designated for deployment.  When instances in the autoscaling group come up, they will pull down the WAR file from the deployment bucket and unpack it.  A copy of application.yml that is tailored to an environment will also be downloaded from S3.  
 
 3. The reporting application is a Docker container that is run on ECS.  The build process consist of running 'docker build' and pushing the resulting image to ECR.  
+
+4. The source code for the lambda functions are part of the 'devops' repo.  Deploying the Cloudwatch Events or the Lambda functions is done via Terraform.
+
+Transitioning to Production
+----------------------
+
+- The reporting application is presently resides at analyticsserver.devops.traderev.com.  This is an public endpoint, but likely does not need to be.  In the new infrastructure setup built via Terraform, the load balancer is an internal load balancer and the lambda functions that call it will run inside a VPC.  It should be verified that there is nothing else that will require access to this endpoint.The load balancer is given an environment agnostic hostname, analyticsserver.traderev.internal.  Both the traderev.internal zone and the analyticsserver.traderev.internal hostname were manually created.  Terraform should eventually be used to create and maintain these resources.
+- Presently, the code in tr-analytics-server-grails accesses the datascience database via a hard-coded URL that is compiled into a binary, and thus cannot be changed at runtime.  This will have to be changed before the application can be moved to production.  
+- Presently, there are 19 lambda functions that post to analyticsserver.devops.traderev.com.  Most of these functions are close to identical.  The only significant difference between these functions is the 'postData' variable, which contains data this is part of the post that is sent to the server.  This 'postData' should be factored out of the functions and up to the Cloudwatch scheduled events that call the functions.  This way, only 1 lambda function needs to be maintained, and each of the Cloudwatch scheduled events can pass in the postData needed by the function.
