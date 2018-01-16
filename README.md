@@ -1,5 +1,7 @@
 # Traderev Analytics
 
+An architechtural diagram of the Analytics application can be found at https://github.com/TradeRev/devops/wiki/files/Analytics.png
+
 The Traderev analytics application consists of 4 components:
 
 1. The static front-end (prod hostname: analytics.traderev.com, repo: https://github.com/TradeRev/tr-analytics)
