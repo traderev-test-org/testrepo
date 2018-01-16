@@ -1,6 +1,6 @@
 # Traderev Analytics
 
-An architechtural diagram of the Analytics application can be found at https://github.com/TradeRev/devops/wiki/files/Analytics.png
+An architechtural diagram of the Analytics application can be found at https://github.com/TradeRev/devops/wiki/Analytics-architecture-diagram
 
 The Traderev analytics application consists of 4 components:
 
